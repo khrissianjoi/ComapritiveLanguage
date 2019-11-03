@@ -6,6 +6,6 @@ int main()
     return 0;
 }
 
-// cc -c first.c
-// cc -o first first.c
-// ./first
+// cc -c first.c "compile"
+// cc -o first first.c "create executable"
+// ./first "execute"
