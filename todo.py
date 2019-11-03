@@ -41,4 +41,5 @@ def main():
             else:
                 myQueue.enqueue(Event(data))
     print(myQueue.size())
+
 main()
