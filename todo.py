@@ -17,9 +17,9 @@ class Queue:
     def __str__(self):
         if self.size():
             tokens = [str(data) for data in self.items if data]
-            return "Your queue looks like this: {}".format(' -> '.join(tokens))
+            return "The Queue: {}".format(' -> '.join(tokens))
         else:
-            return "Your queue is empty."
+            return "Queue is empty."
 
 
 class Task:
