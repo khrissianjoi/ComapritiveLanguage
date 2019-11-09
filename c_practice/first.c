@@ -1,11 +1,17 @@
-#include <stdio.h>
+using System;
+					
 
-int main()
+public class Queue
 {
-    printf("Hello, world\n");
-    return 0;
+	public List<int> iList = new List<int>();
+	public Queue()
+	{
+		this.iList = [1,2,3];
+	}
+	public void Main()
+	{
+		Console.WriteLine(this.test);
+	}
 }
 
-// cc -c first.c "compile"
-// cc -o first first.c "create executable"
-// ./first "execute"
+// https://dotnetfiddle.net/
