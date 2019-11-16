@@ -3,14 +3,15 @@ using System;
 
 public class Queue
 {
-	public List<int> iList = new List<int>();
+	public string[] dataSet = new string[1];  
 	public Queue()
 	{
-		this.iList = [1,2,3];
+		
 	}
 	public void Main()
 	{
-		Console.WriteLine(this.test);
+		dataSet[0]= "hello";
+		Console.WriteLine(dataSet);
 	}
 }
 
