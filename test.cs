@@ -1,9 +1,10 @@
-public class Queue
+using System;
+using System.Collections.Generic;
+
+class Task
 {
-    public Queue(){
-    }
-    
-    public void display() {
-        Console.WriteLine
-    }
+  public static void Main()
+  {
+    Console.WriteLine("hello");
+  }
 }
