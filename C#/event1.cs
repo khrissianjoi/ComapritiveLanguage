@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 class Event
 {
-  public int date;
-  public int startTime;
-  public int location;
+  public Tuple<int, int, int> date = new Tuple <int, int, int>(0,0,0);
+  public Tuple<int, int> startTime = new Tuple <int, int>(0,0);
+  public string location;
 
-  public Event(int date, int startTime, int location)
+  public Event(Tuple<int, int, int> date, Tuple<int, int> startTime, string location)
   {
     this.date = date;
     this.startTime = startTime;

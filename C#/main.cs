@@ -17,34 +17,59 @@ namespace com.event1
 }
 
 class MainClass {
-  public static void test() {
-    Queue q = new Queue();
-		q.enqueue(1);
-		q.enqueue(2);
-		q.enqueue(3);
-		Console.WriteLine(q.myList[1]==2);
-		Console.WriteLine(q.dequeue()==1);
-		Console.WriteLine(q.isEmpty()==false);
-		Queue p = new Queue();
-		Console.WriteLine(true==p.isEmpty());
-    List<string> assigned = new List<string>();
-    Task t = new Task(1,1,1,assigned);
-    Console.WriteLine(true==t.work());
-    Event e = new Event(1,1,"hello");
-    Console.WriteLine(e.work()==true);
+  // public static void test() {
+  //   Queue q = new Queue();
+	// 	// q.enqueue(1);
+	// 	// q.enqueue(2);
+	// 	// q.enqueue(3);
+	// 	// Console.WriteLine(q.myList[1]==2);
+	// 	// Console.WriteLine(q.dequeue()==1);
+	// 	// Console.WriteLine(q.isEmpty()==false);
+	// 	// Queue p = new Queue();
+	// 	// Console.WriteLine(true==p.isEmpty());
+  //   // List<string> assigned = new List<string>();
+  //   // Task t = new Task(1,1,1,assigned);
+  //   // Console.WriteLine(true==t.work());
+  //   // Event e = new Event(1,1,"hello");
+  //   // Console.WriteLine(e.work()==true);
+  // }
+
+  public static Tuple<int, int, int> isValidDate() {
+    Console.WriteLine("Please Enter a date dd/mm/yyyy");
+    string dateEntered = Console.ReadLine();
+    String[] dateList = dateEntered.Split("/");
+    int date = Convert.ToInt32(dateList[0]);
+    int month = Convert.ToInt32(dateList[1]);
+    int year = Convert.ToInt32(dateList[2]);
+    return new Tuple <int, int, int>(date,month,year);
   }
 
-  public bool isValidDate() {
-    return true;
+  public static Tuple<int,int> isValidTime() {
+    Console.WriteLine("Please Enter a start time hh:mm");
+    string startTime = Console.ReadLine();
+    String[] timeList = startTime.Split(":");
+    int hour = Convert.ToInt32(timeList[0]);
+    int minute = Convert.ToInt32(timeList[1]);
+    return new Tuple <int,int>(hour, minute);
+  }
+
+  public static int isDuration() {
+    Console.WriteLine("Please Enter the duration");
+    while(true) {
+      try {
+        int duration = Convert.ToInt32(Console.ReadLine());
+        return duration;
+      }
+      catch {
+        Console.WriteLine("Please enter a duration");
+      }
+    }
   }
 
   public static Task taskSelected() {
-    Console.WriteLine("Please Enter a date dd/mm/yyyy");
-    int date = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Please Enter a start time hh:mm");
-    int startTime = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Please Enter the duration");
-    int duration = Convert.ToInt32(Console.ReadLine());
+    Tuple<int, int, int> date = isValidDate();
+    Tuple<int,int> startTime = isValidTime();
+    int duration = isDuration();
     Console.WriteLine("Please Enter the people assigned to this task, seperated my a comma ','");
     List<string> assignedTemp = new List<string>();
     // var assigned = Console.ReadLine();
@@ -52,13 +77,11 @@ class MainClass {
     return validTask;
   }
 
-    public static Event eventSelected() {
-    Console.WriteLine("Please Enter a date dd/mm/yyyy");
-    int date = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Please Enter a start time hh:mm");
-    int startTime = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Please Enter the location");
+  public static Event eventSelected() {
+    Tuple<int, int, int> date = isValidDate();
+    Tuple<int,int> startTime = isValidTime();
     string location = Console.ReadLine();
+    Console.WriteLine("Please enter the location");
     Event validEvent = new Event(date,startTime,location);
     return validEvent;
   }

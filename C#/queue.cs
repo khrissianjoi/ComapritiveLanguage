@@ -30,5 +30,4 @@ public class Queue
 	{
 		return this.myList.Count;
 	}
-	
 }
