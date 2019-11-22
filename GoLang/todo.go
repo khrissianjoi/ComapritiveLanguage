@@ -6,6 +6,13 @@ import (
   "strings"
 )
 
+func event() {
+	fmt.Println("Please enter a date: dd/mm/yyyy")
+	var i int
+	m,_  := fmt.Scan(&i)
+	fmt.Println(m)
+}
+
 func main() {
   fmt.Println("Hi there!")
   fmt.Println("Welcome to the To-Do-List manager.")
@@ -15,8 +22,10 @@ func main() {
   userInput, _ = reader.ReadString('\n')
   toDo := strings.ToLower(strings.TrimSpace(userInput))
   if toDo == "event" {
-    fmt.Print("You have chosen to add event\n")
+	fmt.Print("You have chosen to add event\n")
+	event()
   } else {
     fmt.Print("You have chosen to add something\n")
   }
+  fmt.Print("DONE")
 }
