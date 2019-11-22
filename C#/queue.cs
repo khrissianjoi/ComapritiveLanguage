@@ -1,22 +1,22 @@
 using System;					
 using System.Collections.Generic;
 
-public class Queue
+public class Queue<T>
 {
-	public List<int> myList = new List<int>();
+	private List<T> myList = new List<T>();
 	public Queue()
 	{
 		this.myList = myList;
 	}
 	
-	public void enqueue(int n)
+	public void enqueue(T value);
 	{
-		this.myList.Insert(0, n);
+		this.myList.Insert(0, value);
 	}
 	
-	public int dequeue()
+	public T dequeue()
 	{
-		int toRemove = this.myList[this.myList.Count - 1];
+		T toRemove = this.myList[this.myList.Count - 1];
 		this.myList.RemoveAt(this.myList.Count-1);
 		return toRemove;
 	}
