@@ -126,11 +126,26 @@ func getToDo() []ToDo {
 	return myQueue
 }
 
+func viewToDo() {
+	if len(myQueue) == 0 {
+		fmt.Println("The To-Do list is currently empty")
+	}
+	for i, todo := range myQueue {
+		if todo.event != nil {
+			fmt.Println(i+1,": Event: on", todo.event.date.Format(dateFormat), "at", todo.event.startTime.Format(timeFormat), "location", todo.event.location)
+		}
+		if todo.task != nil {
+			fmt.Println(i+1, ": Task: ", todo.task.date.Format(dateFormat), "at", todo.task.startTime.Format(timeFormat), "duration", todo.task.duration, "assigned to", todo.task.assigned)
+		}
+	}
+}
+
 func main() {
 	fmt.Println("Hi there!")
 	fmt.Println("Welcome to the To-Do-List manager.")
 	fmt.Println("To exit enter 'quit'.")
 	fmt.Println("If you would like to check your first ToDo, enter 'next to-do'")
+	fmt.Println("If you would like to check your first ToDo, enter 'view to-do'")
 	reader = bufio.NewReader(os.Stdin)
 	state := true
 	for state {
@@ -153,6 +168,8 @@ func main() {
 			state = false
 		}else if toDo == "next to-do" {
 			myQueue = getToDo()
+		} else if toDo == "view to-do"{
+			viewToDo()
 		} else {
 			fmt.Println("What you have entered is invalid")
 		}
