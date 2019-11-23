@@ -42,6 +42,7 @@ func getDuration() float64 {
 	return durationInput
 
 }
+
 func getAssigned() []string {
 	fmt.Println("Please Enter the people assigned to this task, seperated my a comma ','")
 	var assignedInput string
@@ -51,6 +52,7 @@ func getAssigned() []string {
 	return assigned
 
 }
+
 func event() {
 	fmt.Print("You have chosen to add event\n")
 	date := getDate()
@@ -71,21 +73,28 @@ func task() {
 	fmt.Println("The start time is", startTime)
 	fmt.Println("The duration is", duration)
 	fmt.Println("The people assigned to the task are", assigned)
-
 }
 
 func main() {
-  fmt.Println("Hi there!")
-  fmt.Println("Welcome to the To-Do-List manager.")
-  fmt.Println("Would you like to enter an Event or a Task?")
-  reader := bufio.NewReader(os.Stdin)
-  var userInput string
-  userInput, _ = reader.ReadString('\n')
-  toDo := strings.ToLower(strings.TrimSpace(userInput))
-  if toDo == "event" {
-	event()
-  } else {
-	task()
-  }
-  fmt.Print("DONE")
+	fmt.Println("Hi there!")
+	fmt.Println("Welcome to the To-Do-List manager.")
+	fmt.Println("To exit enter quit.")
+	state := true
+	for state {
+		fmt.Println("Would you like to enter an Event or a Task?")
+		reader := bufio.NewReader(os.Stdin)
+		var userInput string
+		userInput, _ = reader.ReadString('\n')
+		toDo := strings.ToLower(strings.TrimSpace(userInput))
+		if toDo == "event" {
+			event()
+		} else if toDo == "task" {
+			task() 
+		} else if toDo == "quit" {
+			state = false
+		}else {
+			fmt.Println("What you have entered is invalid")
+		}
+	}
+	fmt.Println("Thank you for using the To-Do-List manager")
 }
