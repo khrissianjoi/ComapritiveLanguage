@@ -34,7 +34,6 @@ func getDate() time.Time {
 	fmt.Println("Please enter a date: dd/mm/yyyy")
 	dateInput, _ := reader.ReadString('\n')
 	date, _ := time.Parse(dateFormat, strings.TrimSpace(dateInput))
-	// date := strings.Split(strings.TrimSpace(dateInput),"/")
 	return date
 }
 
@@ -43,7 +42,6 @@ func getStartTime() time.Time {
 	fmt.Println("Please enter a start time: hh:mm")
 	startTimeInput, _ := reader.ReadString('\n')
 	startTime, _ := time.Parse(timeFormat, strings.TrimSpace(startTimeInput))
-	// startTime := strings.Split(strings.TrimSpace(startTimeInput),":")
 	return startTime
 }
 
@@ -58,11 +56,8 @@ func getLocation() string {
 func getDuration() time.Time {
 	// prompt user for duration in hh:mm format
 	fmt.Println("Please enter a the duration: hh:mm")
-	// var durationInput float64
-	// _, err := fmt.Scanf("%f", &durationInput)
 	durationInput, _ := reader.ReadString('\n')
 	duration, _ := time.Parse(timeFormat, strings.TrimSpace(durationInput))
-	// fmt.Println(err)
 	return duration
 }
 
@@ -140,16 +135,21 @@ func viewToDo() {
 	}
 }
 
+func promptUserMessages() {
+	fmt.Println("To exit enter 'quit'.")
+	fmt.Println("If you would like to view and remove the fist item in your To-Do list, enter 'next to-do'")
+	fmt.Println("If you would like to view all your items in your To-Do list, enter 'view to-do'")
+	fmt.Println("To add an Event, enter 'event'")
+	fmt.Println("To add an Task, enter 'task'")
+}
+
 func main() {
 	fmt.Println("Hi there!")
 	fmt.Println("Welcome to the To-Do-List manager.")
-	fmt.Println("To exit enter 'quit'.")
-	fmt.Println("If you would like to check your first ToDo, enter 'next to-do'")
-	fmt.Println("If you would like to check your first ToDo, enter 'view to-do'")
+	promptUserMessages()
 	reader = bufio.NewReader(os.Stdin)
 	state := true
 	for state {
-		fmt.Println("Would you like to enter an Event or a Task?")
 		userInput, _ := reader.ReadString('\n')
 		toDo := strings.ToLower(strings.TrimSpace(userInput))
 		if toDo == "event" {
@@ -171,6 +171,7 @@ func main() {
 		} else if toDo == "view to-do"{
 			viewToDo()
 		} else {
+			promptUserMessages()
 			fmt.Println("What you have entered is invalid")
 		}
 	}
