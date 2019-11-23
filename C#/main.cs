@@ -1,38 +1,24 @@
 using System;
 using System.Collections.Generic;
 
+
+namespace com.todo
+{
+  class Todo {};
+  class Task {};
+  class Event {};
+}
+
 namespace com.queue
 {
   class Queue {};
 }
 
-namespace com.task
-{
-  class Task {};
-}
-
-namespace com.event1
-{
-  class Event {};
-}
-
-class MainClass {
-  // public static void test() {
-  //   Queue q = new Queue();
-	// 	// q.enqueue(1);
-	// 	// q.enqueue(2);
-	// 	// q.enqueue(3);
-	// 	// Console.WriteLine(q.myList[1]==2);
-	// 	// Console.WriteLine(q.dequeue()==1);
-	// 	// Console.WriteLine(q.isEmpty()==false);
-	// 	// Queue p = new Queue();
-	// 	// Console.WriteLine(true==p.isEmpty());
-  //   // List<string> assigned = new List<string>();
-  //   // Task t = new Task(1,1,1,assigned);
-  //   // Console.WriteLine(true==t.work());
-  //   // Event e = new Event(1,1,"hello");
-  //   // Console.WriteLine(e.work()==true);
-  // }
+class ToDoManager {
+  public Queue toDoList;
+  public ToDoManager() {
+    this.toDoList = new Queue();
+  }
 
   public static Tuple<int, int, int> isValidDate() {
     Console.WriteLine("Please Enter a date dd/mm/yyyy");
@@ -72,7 +58,6 @@ class MainClass {
     int duration = isDuration();
     Console.WriteLine("Please Enter the people assigned to this task, seperated my a comma ','");
     List<string> assignedTemp = new List<string>();
-    // var assigned = Console.ReadLine();
     Task validTask = new Task(date,startTime,duration,assignedTemp);
     return validTask;
   }
@@ -80,33 +65,64 @@ class MainClass {
   public static Event eventSelected() {
     Tuple<int, int, int> date = isValidDate();
     Tuple<int,int> startTime = isValidTime();
-    string location = Console.ReadLine();
     Console.WriteLine("Please enter the location");
+    string location = Console.ReadLine();
     Event validEvent = new Event(date,startTime,location);
     return validEvent;
   }
-  public static void Main(){
-    // test();
+
+  public void promptUserMessages() {
+    Console.WriteLine("To exit enter 'quit'.");
+    Console.WriteLine("If you would like to view and remove the fist item in your To-Do list, enter 'next to-do'");
+    Console.WriteLine("If you would like to view all your items in your To-Do list, enter 'view to-do'");
+    Console.WriteLine("To add an Event, enter 'event'");
+    Console.WriteLine("To add an Task, enter 'task'");
+  }
+
+  public void viewToDo() {
+    for (int i = 0; i < this.toDoList.size(); i++) // Loop through List with for
+    {
+      Console.WriteLine(this.toDoList.myList[i]);
+    }
+  }
+
+  public void nextToDo() {
+    Todo currentOne = this.toDoList.dequeue();
+    Console.WriteLine(currentOne);
+  }
+
+  public void run() {
     Console.WriteLine("Hi there!");
     Console.WriteLine("Welcome to the To-Do-List manager.");
-
-    bool matchToDo = false;
-    while(!(matchToDo)) {
-      Console.WriteLine("Would you like to enter an Event or a Task?");
-      string userInput = Console.ReadLine().ToLower();
-      if(userInput == "event"){
-        Event theEvent = eventSelected();
-        matchToDo = true;
-      }
-      else if (userInput == "task"){
-        Task theTask = taskSelected();
-        matchToDo = true;
-      }
-      else {
-        Console.WriteLine("The input is invalid");
-      }
+    bool state = true;
+    this.promptUserMessages();
+    while (state) {
+        Console.WriteLine("Would you like to enter an Event or a Task?");
+        string userInput = Console.ReadLine().ToLower();
+        if (userInput == "event"){
+          Event theEvent = eventSelected();
+          this.toDoList.enqueue(theEvent);
+        } else if (userInput == "task"){
+          Task theTask = taskSelected();
+          this.toDoList.enqueue(theTask);
+        } else if (userInput == "quit") {
+			    state = false;
+        } else if (userInput == "view to-do") {
+          this.viewToDo();
+        } else if (userInput == "next to-do") {
+          this.nextToDo();
+        } else {
+          Console.WriteLine("The input is invalid");
+        }
+      Console.WriteLine("SUCCESS");
     }
-    Console.WriteLine("SUCCESS");
     System.Environment.Exit(1);
+  }
+}
+
+class MainClass {
+  public static void Main() {
+    ToDoManager toDoManager = new ToDoManager();
+    toDoManager.run();
   }
 }
