@@ -4,95 +4,156 @@ import (
   "bufio"
   "os"
   "strings"
+  "time"
 )
 
-func getDate() []string {
+var reader *bufio.Reader
+var dateFormat string = "02/01/2006"
+var timeFormat string = "15:04"
+
+type Task struct {
+	date time.Time
+	startTime time.Time
+	duration time.Time
+	assigned []string
+}
+
+type Event struct {
+	date time.Time
+	startTime time.Time
+	location string
+}
+
+type ToDo struct {
+	task *Task
+	event *Event
+}
+
+func getDate() time.Time {
+	// prompt user for date in dd/mm/yyyy format
 	fmt.Println("Please enter a date: dd/mm/yyyy")
-	reader := bufio.NewReader(os.Stdin)
-	var dateInput string
-	dateInput, _ = reader.ReadString('\n')
-	date := strings.Split(strings.TrimSpace(dateInput),"/")
+	dateInput, _ := reader.ReadString('\n')
+	date, _ := time.Parse(dateFormat, strings.TrimSpace(dateInput))
+	// date := strings.Split(strings.TrimSpace(dateInput),"/")
 	return date
 }
 
-func getStartTime() []string {
+func getStartTime() time.Time {
+	// prompt user for date in hh:mm format
 	fmt.Println("Please enter a start time: hh:mm")
-	reader := bufio.NewReader(os.Stdin)
-	var startTimeInput string
-	startTimeInput, _ = reader.ReadString('\n')
-	startTime := strings.Split(strings.TrimSpace(startTimeInput),":")
+	startTimeInput, _ := reader.ReadString('\n')
+	startTime, _ := time.Parse(timeFormat, strings.TrimSpace(startTimeInput))
+	// startTime := strings.Split(strings.TrimSpace(startTimeInput),":")
 	return startTime
 }
 
 func getLocation() string {
+	// prompt user for location
 	fmt.Println("Please enter a location")
-	reader := bufio.NewReader(os.Stdin)
-	var locationInput string
-	locationInput, _ = reader.ReadString('\n')
+	locationInput, _ := reader.ReadString('\n')
 	location := strings.TrimSpace(locationInput)
 	return location
 }
 
-func getDuration() float64 {
-	fmt.Println("Please enter a the duration: hh.mm")
-	// reader := bufio.NewReader(os.Stdin)
-	var durationInput float64
-	_, err := fmt.Scanf("%f", &durationInput)
-	fmt.Println(err)
-	return durationInput
-
+func getDuration() time.Time {
+	// prompt user for duration in hh:mm format
+	fmt.Println("Please enter a the duration: hh:mm")
+	// var durationInput float64
+	// _, err := fmt.Scanf("%f", &durationInput)
+	durationInput, _ := reader.ReadString('\n')
+	duration, _ := time.Parse(timeFormat, strings.TrimSpace(durationInput))
+	// fmt.Println(err)
+	return duration
 }
 
 func getAssigned() []string {
+	// prompt user for list of people seperated by comma
 	fmt.Println("Please Enter the people assigned to this task, seperated my a comma ','")
-	var assignedInput string
-	reader := bufio.NewReader(os.Stdin)
-	assignedInput, _ = reader.ReadString('\n')
+	assignedInput, _ := reader.ReadString('\n')
 	assigned := strings.Split(strings.TrimSpace(assignedInput),",")
 	return assigned
-
 }
 
-func event() {
+func event() Event {
 	fmt.Print("You have chosen to add event\n")
 	date := getDate()
 	startTime := getStartTime()
 	location := getLocation()
-	fmt.Println("The date is", date)
-	fmt.Println("The start time is", startTime)
+	fmt.Println("The date is", date.Format(dateFormat))
+	fmt.Println("The start time is", startTime.Format(timeFormat))
 	fmt.Println("The location is", location)
+	eventEntry := Event{
+		date:date,
+		startTime:startTime,
+		location:location,
+	}
+	return eventEntry
 }
 
-func task() {
+func task() Task {
 	fmt.Print("You have chosen to add a task\n")
 	date := getDate()
 	startTime := getStartTime()
 	duration := getDuration()
 	assigned := getAssigned()
-	fmt.Println("The date is", date)
-	fmt.Println("The start time is", startTime)
-	fmt.Println("The duration is", duration)
+	fmt.Println("The date is", date.Format(dateFormat))
+	fmt.Println("The start time is", startTime.Format(timeFormat))
+	fmt.Println("The duration is", duration.Format(timeFormat))
 	fmt.Println("The people assigned to the task are", assigned)
+	taskEnter := Task{
+		date: date,
+		startTime: startTime,
+		duration: duration,
+		assigned: assigned,
+	}
+	return taskEnter
+}
+
+
+var myQueue []ToDo
+func getToDo() []ToDo {
+	if len(myQueue) == 0 {
+		fmt.Println("The To-Do list is currently empty")
+		return myQueue
+	}
+	firstToDo, myQueue := myQueue[0], myQueue[1:]
+	if firstToDo.event != nil {
+		fmt.Println("Event: on", firstToDo.event.date.Format(dateFormat), "at", firstToDo.event.startTime.Format(timeFormat), "location", firstToDo.event.location)
+	}
+	if firstToDo.task != nil {
+		fmt.Println("Task: ", firstToDo.task.date.Format(dateFormat), "at", firstToDo.task.startTime.Format(timeFormat), "duration", firstToDo.task.duration, "assigned to", firstToDo.task.assigned)
+	}
+	return myQueue
 }
 
 func main() {
 	fmt.Println("Hi there!")
 	fmt.Println("Welcome to the To-Do-List manager.")
-	fmt.Println("To exit enter quit.")
+	fmt.Println("To exit enter 'quit'.")
+	fmt.Println("If you would like to check your first ToDo, enter 'next to-do'")
+	reader = bufio.NewReader(os.Stdin)
 	state := true
 	for state {
 		fmt.Println("Would you like to enter an Event or a Task?")
-		reader := bufio.NewReader(os.Stdin)
-		var userInput string
-		userInput, _ = reader.ReadString('\n')
+		userInput, _ := reader.ReadString('\n')
 		toDo := strings.ToLower(strings.TrimSpace(userInput))
 		if toDo == "event" {
-			event()
+			eventEntry := event()
+			myQueue = append(myQueue, ToDo{
+				event: &eventEntry,
+				task: nil,
+			})
 		} else if toDo == "task" {
-			task() 
+			taskEntry := task()
+			myQueue = append(myQueue, ToDo{
+				task: &taskEntry,
+				event: nil,
+			})
 		} else if toDo == "quit" {
 			state = false
-		}else {
+		}else if toDo == "next to-do" {
+			myQueue = getToDo()
+		} else {
 			fmt.Println("What you have entered is invalid")
 		}
 	}
