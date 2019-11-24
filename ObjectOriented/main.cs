@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace com.todo
 {
   class Todo {};
@@ -45,20 +44,24 @@ class ToDoManager {
       try {
         int duration = Convert.ToInt32(Console.ReadLine());
         return duration;
-      }
-      catch {
+      } catch {
         Console.WriteLine("Please enter a duration");
       }
     }
   }
 
+  public static List<string> isAssigned() {
+    Console.WriteLine("Please Enter the people assigned to this task, seperated my a comma ','");
+    string[] userInput = Console.ReadLine().Split(",");
+    List<string> assigned = new List<string>(userInput);
+    return assigned;
+  }
   public static Task taskSelected() {
     Tuple<int, int, int> date = isValidDate();
     Tuple<int,int> startTime = isValidTime();
     int duration = isDuration();
-    Console.WriteLine("Please Enter the people assigned to this task, seperated my a comma ','");
-    List<string> assignedTemp = new List<string>();
-    Task validTask = new Task(date,startTime,duration,assignedTemp);
+    List<string> assigned = isAssigned();
+    Task validTask = new Task(date,startTime,duration,assigned);
     return validTask;
   }
 
@@ -80,8 +83,7 @@ class ToDoManager {
   }
 
   public void viewToDo() {
-    for (int i = 0; i < this.toDoList.size(); i++) // Loop through List with for
-    {
+    for (int i = 0; i < this.toDoList.size(); i++) {
       Console.WriteLine(this.toDoList.myList[i]);
     }
   }

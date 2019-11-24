@@ -14,7 +14,7 @@ var timeFormat string = "15:04"
 type Task struct {
 	date time.Time
 	startTime time.Time
-	duration time.Time
+	duration string
 	assigned []string
 }
 
@@ -53,11 +53,11 @@ func getLocation() string {
 	return location
 }
 
-func getDuration() time.Time {
+func getDuration() string {
 	// prompt user for duration in hh:mm format
-	fmt.Println("Please enter a the duration: hh:mm")
+	fmt.Println("Please enter a the duration: hh.mm")
 	durationInput, _ := reader.ReadString('\n')
-	duration, _ := time.Parse(timeFormat, strings.TrimSpace(durationInput))
+	duration := strings.TrimSpace(durationInput)
 	return duration
 }
 
@@ -94,7 +94,7 @@ func task() Task {
 	assigned := getAssigned()
 	fmt.Println("The date is", date.Format(dateFormat))
 	fmt.Println("The start time is", startTime.Format(timeFormat))
-	fmt.Println("The duration is", duration.Format(timeFormat))
+	fmt.Println("The duration is", duration)
 	fmt.Println("The people assigned to the task are", assigned)
 	taskEnter := Task{
 		date: date,
@@ -132,7 +132,8 @@ func viewToDo() {
 			fmt.Println(i+1,": Event-\nDate:", todo.event.date.Format(dateFormat), "\nStart Time:", todo.event.startTime.Format(timeFormat), "\nLocation", todo.event.location)
 		}
 		if todo.task != nil {
-			fmt.Println(i+1, ": Task-\nDate:", todo.task.date.Format(dateFormat), "\nStartTime:", todo.task.startTime.Format(timeFormat), "\nDuration", todo.task.duration, "\nAssigned To:", todo.task.assigned)
+			assignedString := strings.Join( todo.task.assigned, ",")
+			fmt.Println(i+1, ": Task-\nDate:", todo.task.date.Format(dateFormat), "\nStartTime:", todo.task.startTime.Format(timeFormat), "\nDuration:", todo.task.duration, "\nAssigned To:", assignedString)
 		}
 	}
 }
