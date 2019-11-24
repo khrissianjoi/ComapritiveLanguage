@@ -99,9 +99,9 @@ class ToDoManager {
   }
 
   public void viewToDo() {
-    if (this.toDoList.size() != 0) {
-      for (int i = 0; i < this.toDoList.size(); i++) {
-        string toDoInternation = string.Format("{0}:{1}",i+1, this.toDoList.myList[i]);
+    if (!(this.toDoList.isEmpty())) {
+      for (int i = 0, j=this.toDoList.size()-1; j >= 0; i++,j--) {
+        string toDoInternation = string.Format("{0}:{1}",i+1, this.toDoList.myList[j]);
         Console.WriteLine(toDoInternation);
       }
     } else {
@@ -110,7 +110,7 @@ class ToDoManager {
   }
 
   public void nextToDo() {
-    if (this.toDoList.size() != 0) {
+    if (!(this.toDoList.isEmpty())) {
       Todo currentOne = this.toDoList.dequeue();
       Console.WriteLine(currentOne);
     } else {

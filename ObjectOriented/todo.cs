@@ -5,6 +5,7 @@ public class Todo
 { 
     public Tuple<int, int, int> date = new Tuple <int, int, int>(0,0,0);
     public Tuple<int, int> startTime = new Tuple <int, int>(0,0);
+    
     public Todo(Tuple<int, int, int> date, Tuple<int, int> startTime) {
       this.date = date;
       this.startTime = startTime;
@@ -25,8 +26,10 @@ class Task : Todo
   }
 
   public override string ToString() {
+    string dateFormat = string.Format("{0}/{1}/{2}",this.date.Item1,this.date.Item2,this.date.Item3);
+    string startTimeFormat = string.Format("{0}:{1}",this.startTime.Item1,this.startTime.Item2);
     string assignedPeople = String.Join(", ", this.assigned);
-    return string.Format("Task-\nDate: {0}\nStartTime: {1}\nDuration: {2}\nAssigned To: {3}",date,startTime,this.duration, assignedPeople);
+    return string.Format("Task-\nDate: {0}\nStartTime: {1}\nDuration: {2}\nAssigned To: {3}",dateFormat,startTimeFormat,this.duration, assignedPeople);
   }
 }
 
@@ -41,6 +44,8 @@ class Event : Todo
   }
 
   public override string ToString() {
-    return string.Format("Event-\nDate: {0}\nStartTime: {1}\nLocation: {2}",date,startTime,this.location);
+    string dateFormat = string.Format("{0}/{1}/{2}",this.date.Item1,this.date.Item2,this.date.Item3);
+    string startTimeFormat = string.Format("{0}:{1}",this.startTime.Item1,this.startTime.Item2);
+    return string.Format("Event-\nDate: {0}\nStartTime: {1}\nLocation: {2}",dateFormat,startTimeFormat,this.location);
   }
 }
