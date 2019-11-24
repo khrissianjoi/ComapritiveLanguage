@@ -20,32 +20,44 @@ class ToDoManager {
   }
 
   public static Tuple<int, int, int> isValidDate() {
-    Console.WriteLine("Please Enter a date dd/mm/yyyy");
-    string dateEntered = Console.ReadLine();
-    String[] dateList = dateEntered.Split("/");
-    int date = Convert.ToInt32(dateList[0]);
-    int month = Convert.ToInt32(dateList[1]);
-    int year = Convert.ToInt32(dateList[2]);
-    return new Tuple <int, int, int>(date,month,year);
+    while(true) {
+      try {
+        Console.WriteLine("Please Enter a date dd/mm/yyyy");
+        string dateEntered = Console.ReadLine();
+        String[] dateList = dateEntered.Split("/");
+        int date = Convert.ToInt32(dateList[0]);
+        int month = Convert.ToInt32(dateList[1]);
+        int year = Convert.ToInt32(dateList[2]);
+        return new Tuple <int, int, int>(date,month,year);
+      } catch {
+        Console.WriteLine("Invalid");
+      }
+    }
   }
 
   public static Tuple<int,int> isValidTime() {
-    Console.WriteLine("Please Enter a start time hh:mm");
-    string startTime = Console.ReadLine();
-    String[] timeList = startTime.Split(":");
-    int hour = Convert.ToInt32(timeList[0]);
-    int minute = Convert.ToInt32(timeList[1]);
-    return new Tuple <int,int>(hour, minute);
+    while(true) {
+      try {
+        Console.WriteLine("Please Enter a start time hh:mm");
+        string startTime = Console.ReadLine();
+        String[] timeList = startTime.Split(":");
+        int hour = Convert.ToInt32(timeList[0]);
+        int minute = Convert.ToInt32(timeList[1]);
+        return new Tuple <int,int>(hour, minute);
+      } catch {
+        Console.WriteLine("Invalid");
+      }
+      }
   }
 
   public static int isDuration() {
-    Console.WriteLine("Please Enter the duration");
     while(true) {
       try {
+        Console.WriteLine("Please Enter the duration");
         int duration = Convert.ToInt32(Console.ReadLine());
         return duration;
       } catch {
-        Console.WriteLine("Please enter a duration");
+        Console.WriteLine("Invalid");
       }
     }
   }
@@ -62,6 +74,8 @@ class ToDoManager {
     int duration = isDuration();
     List<string> assigned = isAssigned();
     Task validTask = new Task(date,startTime,duration,assigned);
+    Console.WriteLine(validTask);
+    Console.WriteLine("Task added");
     return validTask;
   }
 
@@ -71,26 +85,37 @@ class ToDoManager {
     Console.WriteLine("Please enter the location");
     string location = Console.ReadLine();
     Event validEvent = new Event(date,startTime,location);
+    Console.WriteLine(validEvent);
+    Console.WriteLine("Event added");
     return validEvent;
   }
 
   public void promptUserMessages() {
     Console.WriteLine("To exit enter 'quit'.");
-    Console.WriteLine("If you would like to view and remove the fist item in your To-Do list, enter 'next to-do'");
-    Console.WriteLine("If you would like to view all your items in your To-Do list, enter 'view to-do'");
+    Console.WriteLine("If you would like to view and remove the first item in your To-Do list, enter 'next'");
+    Console.WriteLine("If you would like to view all your items in your To-Do list, enter 'view'");
     Console.WriteLine("To add an Event, enter 'event'");
     Console.WriteLine("To add an Task, enter 'task'");
   }
 
   public void viewToDo() {
-    for (int i = 0; i < this.toDoList.size(); i++) {
-      Console.WriteLine(this.toDoList.myList[i]);
+    if (this.toDoList.size() != 0) {
+      for (int i = 0; i < this.toDoList.size(); i++) {
+        string toDoInternation = string.Format("{0}:{1}",i+1, this.toDoList.myList[i]);
+        Console.WriteLine(toDoInternation);
+      }
+    } else {
+      Console.WriteLine("The To-Do list is currently empty");
     }
   }
 
   public void nextToDo() {
-    Todo currentOne = this.toDoList.dequeue();
-    Console.WriteLine(currentOne);
+    if (this.toDoList.size() != 0) {
+      Todo currentOne = this.toDoList.dequeue();
+      Console.WriteLine(currentOne);
+    } else {
+      Console.WriteLine("The To-Do list is currently empty");
+    }
   }
 
   public void run() {
@@ -109,15 +134,15 @@ class ToDoManager {
           this.toDoList.enqueue(theTask);
         } else if (userInput == "quit") {
 			    state = false;
-        } else if (userInput == "view to-do") {
+        } else if (userInput == "view") {
           this.viewToDo();
-        } else if (userInput == "next to-do") {
+        } else if (userInput == "next") {
           this.nextToDo();
         } else {
           Console.WriteLine("The input is invalid");
         }
-      Console.WriteLine("SUCCESS");
     }
+    Console.WriteLine("Thank you for using the To-Do-List manager");
     System.Environment.Exit(1);
   }
 }

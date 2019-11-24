@@ -70,6 +70,7 @@ func getAssigned() []string {
 }
 
 func event() Event {
+	// gathers information an event requires
 	fmt.Print("You have chosen to add event\n")
 	date := getDate()
 	startTime := getStartTime()
@@ -82,11 +83,13 @@ func event() Event {
 		startTime:startTime,
 		location:location,
 	}
+	fmt.Println("Event-\nDate:", eventEntry.date.Format(dateFormat), "\nStart Time:", eventEntry.startTime.Format(timeFormat), "\nLocation", eventEntry.location)
 	fmt.Println("Event added")
 	return eventEntry
 }
 
 func task() Task {
+	// gathers information a task requires
 	fmt.Print("You have chosen to add a task\n")
 	date := getDate()
 	startTime := getStartTime()
@@ -102,13 +105,15 @@ func task() Task {
 		duration: duration,
 		assigned: assigned,
 	}
+	fmt.Println("Task-\nDate:", taskEnter.date.Format(dateFormat), "\nStartTime:", taskEnter.startTime.Format(timeFormat), "\nDuration", taskEnter.duration, "\nAssigned To:", taskEnter.assigned)
 	fmt.Println("Task added")
 	return taskEnter
 }
 
-
+// slice structure to store to-do
 var myQueue []ToDo
-func getToDo() []ToDo {
+
+func nextToDo() []ToDo {
 	if len(myQueue) == 0 {
 		fmt.Println("The To-Do list is currently empty")
 		return myQueue
@@ -140,8 +145,8 @@ func viewToDo() {
 
 func promptUserMessages() {
 	fmt.Println("To exit enter 'quit'.")
-	fmt.Println("If you would like to view and remove the fist item in your To-Do list, enter 'next to-do'")
-	fmt.Println("If you would like to view all your items in your To-Do list, enter 'view to-do'")
+	fmt.Println("If you would like to view and remove the first item in your To-Do list, enter 'next'")
+	fmt.Println("If you would like to view all your items in your To-Do list, enter 'view'")
 	fmt.Println("To add an Event, enter 'event'")
 	fmt.Println("To add an Task, enter 'task'")
 }
@@ -169,9 +174,9 @@ func main() {
 			})
 		} else if toDo == "quit" {
 			state = false
-		}else if toDo == "next to-do" {
-			myQueue = getToDo()
-		} else if toDo == "view to-do"{
+		}else if toDo == "next" {
+			myQueue = nextToDo()
+		} else if toDo == "view"{
 			viewToDo()
 		} else {
 			promptUserMessages()
