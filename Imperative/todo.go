@@ -29,6 +29,9 @@ type ToDo struct {
 	event *Event
 }
 
+var myList []ToDo
+
+
 func getDate() time.Time {
 	// prompt user for date in dd/mm/yyyy format
 	fmt.Println("Please enter a date: dd/mm/yyyy")
@@ -110,29 +113,26 @@ func task() Task {
 	return taskEnter
 }
 
-// slice structure to store to-do
-var myQueue []ToDo
-
 func nextToDo() []ToDo {
-	if len(myQueue) == 0 {
+	if len(myList) == 0 {
 		fmt.Println("The To-Do list is currently empty")
-		return myQueue
+		return myList
 	}
-	firstToDo, myQueue := myQueue[0], myQueue[1:]
+	firstToDo, myList := myList[0], myList[1:]
 	if firstToDo.event != nil {
 		fmt.Println("Event-\nDate:", firstToDo.event.date.Format(dateFormat), "\nStart Time:", firstToDo.event.startTime.Format(timeFormat), "\nLocation", firstToDo.event.location)
 	}
 	if firstToDo.task != nil {
 		fmt.Println("Task-\nDate:", firstToDo.task.date.Format(dateFormat), "\nStartTime:", firstToDo.task.startTime.Format(timeFormat), "\nDuration", firstToDo.task.duration, "\nAssigned To:", firstToDo.task.assigned)
 	}
-	return myQueue
+	return myList
 }
 
 func viewToDo() {
-	if len(myQueue) == 0 {
+	if len(myList) == 0 {
 		fmt.Println("The To-Do list is currently empty")
 	}
-	for i, todo := range myQueue {
+	for i, todo := range myList {
 		if todo.event != nil {
 			fmt.Println(i+1,": Event-\nDate:", todo.event.date.Format(dateFormat), "\nStart Time:", todo.event.startTime.Format(timeFormat), "\nLocation", todo.event.location)
 		}
@@ -151,6 +151,7 @@ func promptUserMessages() {
 	fmt.Println("To add an Task, enter 'task'")
 }
 
+
 func main() {
 	fmt.Println("Hi there!")
 	fmt.Println("Welcome to the To-Do-List manager.")
@@ -162,20 +163,20 @@ func main() {
 		toDo := strings.ToLower(strings.TrimSpace(userInput))
 		if toDo == "event" {
 			eventEntry := event()
-			myQueue = append(myQueue, ToDo{
+			myList = append(myList, ToDo{
 				event: &eventEntry,
 				task: nil,
 			})
 		} else if toDo == "task" {
 			taskEntry := task()
-			myQueue = append(myQueue, ToDo{
+			myList = append(myList, ToDo{
 				task: &taskEntry,
 				event: nil,
 			})
 		} else if toDo == "quit" {
 			state = false
 		}else if toDo == "next" {
-			myQueue = nextToDo()
+			myList = nextToDo()
 		} else if toDo == "view"{
 			viewToDo()
 		} else {
