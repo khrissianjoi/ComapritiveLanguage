@@ -108,7 +108,7 @@ func task() Task {
 		duration: duration,
 		assigned: assigned,
 	}
-	fmt.Println("Task-\nDate:", taskEnter.date.Format(dateFormat), "\nStartTime:", taskEnter.startTime.Format(timeFormat), "\nDuration", taskEnter.duration, "\nAssigned To:", taskEnter.assigned)
+	fmt.Println("Task-\nDate:", taskEnter.date.Format(dateFormat), "\nStartTime:", taskEnter.startTime.Format(timeFormat), "\nDuration", taskEnter.duration, "\nAssigned To:", strings.Join(taskEnter.assigned, ","))
 	fmt.Println("Task added")
 	return taskEnter
 }
@@ -123,7 +123,7 @@ func nextToDo() []ToDo {
 		fmt.Println("Event-\nDate:", firstToDo.event.date.Format(dateFormat), "\nStart Time:", firstToDo.event.startTime.Format(timeFormat), "\nLocation", firstToDo.event.location)
 	}
 	if firstToDo.task != nil {
-		fmt.Println("Task-\nDate:", firstToDo.task.date.Format(dateFormat), "\nStartTime:", firstToDo.task.startTime.Format(timeFormat), "\nDuration", firstToDo.task.duration, "\nAssigned To:", firstToDo.task.assigned)
+		fmt.Println("Task-\nDate:", firstToDo.task.date.Format(dateFormat), "\nStartTime:", firstToDo.task.startTime.Format(timeFormat), "\nDuration", firstToDo.task.duration, "\nAssigned To:", strings.Join(firstToDo.task.assigned,","))
 	}
 	return myList
 }
@@ -134,11 +134,11 @@ func viewToDo() {
 	}
 	for i, todo := range myList {
 		if todo.event != nil {
-			fmt.Println(i+1,": Event-\nDate:", todo.event.date.Format(dateFormat), "\nStart Time:", todo.event.startTime.Format(timeFormat), "\nLocation", todo.event.location)
+			fmt.Println(i+1,": Event-\nDate:", todo.event.date.Format(dateFormat), "\nStart Time:", todo.event.startTime.Format(timeFormat), "\nLocation:", todo.event.location)
 		}
 		if todo.task != nil {
 			assignedString := strings.Join( todo.task.assigned, ",")
-			fmt.Println(i+1, ": Task-\nDate:", todo.task.date.Format(dateFormat), "\nStartTime:", todo.task.startTime.Format(timeFormat), "\nDuration:", todo.task.duration, "\nAssigned To:", assignedString)
+			fmt.Println(i+1, ": Task-\nDate:", todo.task.date.Format(dateFormat), "\nStart Time:", todo.task.startTime.Format(timeFormat), "\nDuration:", todo.task.duration, "\nAssigned To:", assignedString)
 		}
 	}
 }
