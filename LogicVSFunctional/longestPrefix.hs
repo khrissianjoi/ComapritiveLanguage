@@ -8,7 +8,9 @@ longestPrefix (currentPrefix:nextString:remainingStrings) = longestPrefix (updat
 prefixMatcher :: String -> String -> String
 
 prefixMatcher [] _ = ""
+prefixMatcher _ [] = ""
 prefixMatcher (currentPrefix:remainingPrefix) (currentChar:remainingChars)
     | currentPrefix == currentChar = [currentPrefix] ++ prefixMatcher remainingPrefix remainingChars 
     | otherwise = ""
 
+    
